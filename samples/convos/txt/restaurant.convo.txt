@@ -1,0 +1,14 @@
+restaurant
+
+#me
+Hi
+
+#bot
+Goodday, How can I help you?
+
+#me
+Give me some links
+
+#bot
+BASIC_LINKS www.google.co
+

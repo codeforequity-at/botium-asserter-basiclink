@@ -1,1 +1,1 @@
-# botium-asserter-basiclink
+# botium-connector-echo
