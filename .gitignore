@@ -4,6 +4,9 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+samples/yarn*
+yarn*
+botium-asserter-basiclink.iml
 
 # Runtime data
 pids
