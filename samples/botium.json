@@ -9,7 +9,7 @@
       "ASSERTERS": [
         {
           "ref": "BASIC_LINKS",
-          "src": "/Users/stefan-sev/IdeaProjects/botium-asserter-basiclink"
+          "src": "botium-asserter-basiclink"
         }
       ]
     }
