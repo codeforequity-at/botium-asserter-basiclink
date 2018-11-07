@@ -33,14 +33,6 @@ class BasicLinkAsserter {
     }
     return Promise.resolve()
   };
-
-  assertConvoBegin (convo) {
-    return Promise.resolve()
-  }
-
-  assertConvoEnd (convo, msgs) {
-    return Promise.resolve()
-  }
 }
 
 module.exports = BasicLinkAsserter
