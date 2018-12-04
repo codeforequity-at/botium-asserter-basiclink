@@ -1,4 +1,4 @@
-const linkify = require('linkifyjs');
+const linkify = require('linkifyjs')
 const util = require('util')
 const debug = require('debug')('botium-asserter-basiclink')
 
@@ -8,8 +8,8 @@ class BasicLinkAsserter {
     this.caps = caps
   }
 
-  assertConvoStep({convoStep, args, botMsg}) {
-    let links = linkify.find(botMsg.messageText);
+  assertConvoStep ({convoStep, args, botMsg}) {
+    let links = linkify.find(botMsg.messageText)
     if (botMsg.buttons) {
       links.add(botMsg.buttons.map(b => b.imageUri))
     }
@@ -22,13 +22,13 @@ class BasicLinkAsserter {
 
     const notFoundLinks = args
       .map(a => {
-        if(!urls.some(u => this.context.Match(a, u))) {
+        if (!urls.some(u => this.context.Match(a, u))) {
           return a
         }
       })
       .filter(a => a != null)
 
-    if(notFoundLinks.length > 0) {
+    if (notFoundLinks.length > 0) {
       return Promise.reject(new Error(`${convoStep.stepTag}: Expected links with text ${notFoundLinks}, but got ${util.inspect(urls)} "`))
     }
     return Promise.resolve()
