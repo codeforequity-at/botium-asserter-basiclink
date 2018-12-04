@@ -1,6 +1,6 @@
 const linkify = require('linkifyjs');
 const util = require('util')
-const debug = require('debug')('basicLink-asserter')
+const debug = require('debug')('botium-asserter-basiclink')
 
 class BasicLinkAsserter {
   constructor (context, caps = {}) {
@@ -8,7 +8,7 @@ class BasicLinkAsserter {
     this.caps = caps
   }
 
-  assertConvoStep(convo, convoStep, args, botMsg) {
+  assertConvoStep({convoStep, args, botMsg}) {
     let links = linkify.find(botMsg.messageText);
     if (botMsg.buttons) {
       links.add(botMsg.buttons.map(b => b.imageUri))

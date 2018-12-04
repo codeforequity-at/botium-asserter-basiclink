@@ -1,6 +1,6 @@
 {
   "name": "botium-asserter-basiclink",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "dist/botium-asserter-basiclink-cjs.js",
   "module": "dist/botium-asserter-basiclink-es.js",
