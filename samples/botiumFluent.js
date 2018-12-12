@@ -8,6 +8,7 @@ const scriptBuffer = fs.readFileSync(path.join(__dirname, 'convos/txt/restaurant
 
 driver.BuildFluent()
   .Compile(scriptBuffer, 'SCRIPTING_FORMAT_TXT')
+  .Start()
   .RunScripts()
   .Exec()
   .then(() => {

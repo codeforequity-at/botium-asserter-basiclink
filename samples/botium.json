@@ -9,7 +9,7 @@
       "ASSERTERS": [
         {
           "ref": "BASIC_LINKS",
-          "src": "botium-asserter-basiclink"
+          "src": "../index"
         }
       ]
     }

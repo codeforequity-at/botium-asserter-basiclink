@@ -22,7 +22,7 @@ class BasicLinkAsserter {
 
     const notFoundLinks = args
       .map(a => {
-        if (!urls.some(u => this.context.Match(a, u))) {
+        if (!urls.some(u => this.context.Match(u, a))) {
           return a
         }
       })
