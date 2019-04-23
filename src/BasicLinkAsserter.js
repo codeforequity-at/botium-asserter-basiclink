@@ -8,7 +8,7 @@ class BasicLinkAsserter {
     this.caps = caps
   }
 
-  assertConvoStep({convoStep, args, botMsg}) {
+  assertConvoStep ({convoStep, args, botMsg}) {
     let links = new Set(linkify.find(botMsg.messageText)
       .map(u => u.href))
     if (botMsg.buttons) {
