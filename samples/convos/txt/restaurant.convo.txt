@@ -10,5 +10,5 @@ Goodday, How can I help you?
 Give me some links
 
 #bot
-BASIC_LINKS www.google.co
+BASIC_LINKS www.google.com | www.botium.at
 

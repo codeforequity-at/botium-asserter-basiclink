@@ -9,7 +9,8 @@ class BasicLinkAsserter {
   }
 
   assertConvoStep ({convoStep, args, botMsg}) {
-    let links = linkify.find(botMsg.messageText)
+    let links = new Set(linkify.find(botMsg.messageText)
+      .map(u => u.href))
     if (botMsg.buttons) {
       links.add(botMsg.buttons.map(b => b.imageUri))
     }
@@ -17,22 +18,21 @@ class BasicLinkAsserter {
       links.add(botMsg.media.map(m => m.mediaUri))
     }
     debug(`all found links : ${util.inspect(links)}`)
-    const urls = links
-      .map(u => u.href)
 
     const notFoundLinks = args
       .map(a => {
-        if (!urls.some(u => this.context.Match(u, a))) {
+        if (!links.has(u => u.includes(a))) {
           return a
         }
+        return null
       })
       .filter(a => a != null)
 
     if (notFoundLinks.length > 0) {
-      return Promise.reject(new Error(`${convoStep.stepTag}: Expected links with text ${notFoundLinks}, but got ${util.inspect(urls)} "`))
+      return Promise.reject(new Error(`${convoStep.stepTag}: Expected links with text ${notFoundLinks}, but got ${util.inspect(links)} "`))
     }
     return Promise.resolve()
-  };
+  }
 }
 
 module.exports = BasicLinkAsserter
