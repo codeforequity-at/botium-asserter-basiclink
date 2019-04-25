@@ -9,29 +9,29 @@ class BasicLinkAsserter {
   }
 
   assertConvoStep ({convoStep, args, botMsg}) {
-    let links = new Set(linkify.find(botMsg.messageText)
+    let linksSet = new Set(linkify.find(botMsg.messageText)
       .map(u => u.href))
     if (botMsg.buttons) {
-      links.add(botMsg.buttons.map(b => b.imageUri))
+      botMsg.buttons.forEach(b => linksSet.add(b.imageUri))
     }
     if (botMsg.media) {
-      links.add(botMsg.media.map(m => m.mediaUri))
+      botMsg.media.forEach(m => linksSet.add(m.imageUri))
     }
-    debug(`all found links : ${util.inspect(links)}`)
+    debug(`all found links : ${util.inspect(linksSet)}`)
 
+    const links = Array.from(linksSet)
     const notFoundLinks = args
-      .map(a => {
-        if (!links.has(u => u.includes(a))) {
-          return a
-        }
-        return null
-      })
+      .map(requiredLinks => this.hasSubStringOfEntry(links, requiredLinks))
       .filter(a => a != null)
 
     if (notFoundLinks.length > 0) {
-      return Promise.reject(new Error(`${convoStep.stepTag}: Expected links with text ${notFoundLinks}, but got ${util.inspect(links)} "`))
+      return Promise.reject(new Error(`${convoStep.stepTag}: Expected links with text ${notFoundLinks}, but got ${util.inspect(linksSet)} "`))
     }
     return Promise.resolve()
+  }
+
+  hasSubStringOfEntry (list, requiredEntry) {
+    return !list.some(u => u.includes(requiredEntry)) ? requiredEntry : null
   }
 }
 
