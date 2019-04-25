@@ -16,4 +16,4 @@ BASIC_LINKS www.google.com | www.botium.at
 Give me some links
 
 #bot
-BASIC_LINKS www.google.com | www.botium.at | www.clojure.com
+BASIC_LINKS www.google.com | www.botium.at | www.clojure.com | www.google.com | www.clojure.com

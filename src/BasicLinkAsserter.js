@@ -9,6 +9,7 @@ class BasicLinkAsserter {
   }
 
   assertConvoStep ({convoStep, args, botMsg}) {
+    const uniqueArgs = Array.from(new Set(args))
     let linksSet = new Set(linkify.find(botMsg.messageText)
       .map(u => u.href))
     if (botMsg.buttons) {
@@ -20,7 +21,7 @@ class BasicLinkAsserter {
     debug(`all found links : ${util.inspect(linksSet)}`)
 
     const links = Array.from(linksSet)
-    const notFoundLinks = args
+    const notFoundLinks = uniqueArgs
       .map(requiredLinks => this.hasSubStringOfEntry(links, requiredLinks))
       .filter(a => a != null)
 
