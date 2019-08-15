@@ -1,2 +1,1 @@
-module.exports =  require('./src/BasicLinkAsserter')
-
+module.exports = require('./src/BasicLinkAsserter')

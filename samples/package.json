@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "botium-asserter-basiclink": "file:../",
-    "botium-connector-dialogflow": "*",
-    "botium-core": "*"
+    "botium-connector-dialogflow": "0.0.8",
+    "botium-core": "1.5.1"
   }
 }

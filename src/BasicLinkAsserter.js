@@ -2,8 +2,8 @@ const linkify = require('linkifyjs')
 const util = require('util')
 const debug = require('debug')('botium-asserter-basiclink')
 
-class BasicLinkAsserter {
-  constructor (context, caps = {}) {
+module.exports = class BasicLinkAsserter {
+  constructor (context, caps = {}, args = {}) {
     this.context = context
     this.caps = caps
   }
@@ -13,10 +13,10 @@ class BasicLinkAsserter {
     let linksSet = new Set(linkify.find(botMsg.messageText)
       .map(u => u.href))
     if (botMsg.buttons) {
-      botMsg.buttons.forEach(b => linksSet.add(b.imageUri))
+      botMsg.buttons.forEach(b => linksSet.add(b.payload))
     }
     if (botMsg.media) {
-      botMsg.media.forEach(m => linksSet.add(m.imageUri))
+      botMsg.media.forEach(m => linksSet.add(m.payload))
     }
     debug(`all found links : ${util.inspect(linksSet)}`)
 
@@ -35,5 +35,3 @@ class BasicLinkAsserter {
     return !list.some(u => u.includes(requiredEntry)) ? requiredEntry : null
   }
 }
-
-module.exports = BasicLinkAsserter
