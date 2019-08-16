@@ -13,10 +13,15 @@ module.exports = class BasicLinkAsserter {
     let linksSet = new Set(linkify.find(botMsg.messageText)
       .map(u => u.href))
     if (botMsg.buttons) {
-      botMsg.buttons.forEach(b => linksSet.add(b.payload))
+      botMsg.buttons.forEach(b => {
+        linksSet.add(b.payload)
+        linksSet.add(b.imageUri)
+      })
     }
     if (botMsg.media) {
-      botMsg.media.forEach(m => linksSet.add(m.payload))
+      botMsg.media.forEach(m => {
+        linksSet.add(m.mediaUri)
+      })
     }
     debug(`all found links : ${util.inspect(linksSet)}`)
 
