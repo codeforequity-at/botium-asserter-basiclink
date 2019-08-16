@@ -25,7 +25,8 @@ module.exports = class BasicLinkAsserter {
     }
     debug(`all found links : ${util.inspect(linksSet)}`)
 
-    const links = Array.from(linksSet)
+    const links = Array.from(linksSet
+      .filter(s => s != null))
     const notFoundLinks = uniqueArgs
       .map(requiredLinks => this.hasSubStringOfEntry(links, requiredLinks))
       .filter(a => a != null)
