@@ -1,5 +1,11 @@
 # Botium Asserter: Hyperlink
 
+[![NPM](https://nodei.co/npm/botium-asserter-basiclink.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/botium-asserter-basiclink/)
+
+[![Codeship Status for codeforequity-at/botium-asserter-basiclink](https://app.codeship.com/projects/92741190-da3f-0136-2f75-7a4a4ba9342f/status?branch=master)](https://app.codeship.com/projects/317527)
+[![npm version](https://badge.fury.io/js/botium-asserter-basiclink.svg)](https://badge.fury.io/js/botium-asserter-basiclink)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
+
 Asserts Botium Message contains a hyperlink
 
 ## Configuration
