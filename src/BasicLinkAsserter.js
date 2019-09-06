@@ -1,5 +1,7 @@
-const linkify = require('linkifyjs')
 const util = require('util')
+const linkify = require('linkifyjs')
+const _ = require('lodash')
+const { BotiumError } = require('botium-core')
 const debug = require('debug')('botium-asserter-basiclink')
 
 module.exports = class BasicLinkAsserter {
@@ -8,36 +10,50 @@ module.exports = class BasicLinkAsserter {
     this.caps = caps
   }
 
-  assertConvoStep ({convoStep, args, botMsg}) {
-    const uniqueArgs = Array.from(new Set(args))
-    let linksSet = new Set(linkify.find(botMsg.messageText)
-      .map(u => u.href))
+  assertConvoStep ({ convoStep, args, botMsg }) {
+    const uniqueArgs = _.uniq(args || [])
+
+    let links = (linkify.find(botMsg.messageText) || []).map(u => u.href)
     if (botMsg.buttons) {
       botMsg.buttons.forEach(b => {
-        linksSet.add(b.payload)
-        linksSet.add(b.imageUri)
+        links.push(b.payload)
+        links.push(b.imageUri)
       })
     }
     if (botMsg.media) {
       botMsg.media.forEach(m => {
-        linksSet.add(m.mediaUri)
+        links.push(m.mediaUri)
       })
     }
-    debug(`all found links : ${util.inspect(linksSet)}`)
+    links = links.filter(s => s && _.isString(s))
+    debug(`all found links : ${util.inspect(links)}`)
 
-    const links = Array.from(linksSet
-      .filter(s => s != null))
-    const notFoundLinks = uniqueArgs
-      .map(requiredLinks => this.hasSubStringOfEntry(links, requiredLinks))
-      .filter(a => a != null)
+    const notFoundLinks = uniqueArgs.reduce((acc, requiredLink) => {
+      if (links.findIndex(u => u.includes(requiredLink)) < 0) {
+        acc.push(requiredLink)
+      }
+      return acc
+    }, [])
 
     if (notFoundLinks.length > 0) {
-      return Promise.reject(new Error(`${convoStep.stepTag}: Expected links with text ${notFoundLinks}, but got ${util.inspect(linksSet)} "`))
+      return Promise.reject(new BotiumError(`${convoStep.stepTag}: Expected link(s) "${notFoundLinks}", but only found link(s) "${links}"`,
+        {
+          type: 'asserter',
+          source: 'BasicLinkAsserter',
+          context: {
+            constructor: {},
+            params: {
+              args
+            }
+          },
+          cause: {
+            expected: uniqueArgs,
+            actual: links,
+            diff: notFoundLinks
+          }
+        }
+      ))
     }
     return Promise.resolve()
-  }
-
-  hasSubStringOfEntry (list, requiredEntry) {
-    return !list.some(u => u.includes(requiredEntry)) ? requiredEntry : null
   }
 }
