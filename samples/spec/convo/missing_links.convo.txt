@@ -1,0 +1,7 @@
+link
+
+#me
+give me a button
+
+#bot
+HASLINK http://www.clojure.com|http://www.google.com
