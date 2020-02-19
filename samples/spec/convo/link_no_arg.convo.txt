@@ -1,4 +1,4 @@
-link
+excpect ok: link and asserter with no arg
 
 #me
 give me a picture

@@ -28,6 +28,28 @@ module.exports = class BasicLinkAsserter {
     links = links.filter(s => s && _.isString(s))
     debug(`all found links : ${util.inspect(links)}`)
 
+    if (!args || args.length === 0) {
+      if (links.length) {
+        return Promise.resolve()
+      }
+      return Promise.reject(new BotiumError(`${convoStep.stepTag}: Some link(s) expected`,
+        {
+          type: 'asserter',
+          source: 'BasicLinkAsserter',
+          context: {
+            constructor: {},
+            params: {
+              args
+            }
+          },
+          cause: {
+            expected: uniqueArgs,
+            actual: links
+          }
+        }
+      ))
+    }
+
     const notFoundLinks = uniqueArgs.reduce((acc, requiredLink) => {
       if (links.findIndex(u => u.includes(requiredLink)) < 0) {
         acc.push(requiredLink)
