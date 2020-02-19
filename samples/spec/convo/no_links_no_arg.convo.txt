@@ -1,0 +1,7 @@
+link
+
+#me
+hello
+
+#bot
+HASLINK

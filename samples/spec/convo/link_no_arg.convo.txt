@@ -1,0 +1,7 @@
+link
+
+#me
+give me a picture
+
+#bot
+HASLINK
