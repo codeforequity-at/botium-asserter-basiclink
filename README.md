@@ -8,6 +8,8 @@
 
 Asserts Botium Message contains a hyperlink
 
+If it is used without argument, then it fails if there is no hyperlink at all.
+ 
 ## Configuration
 
 ### Botium Box
@@ -29,6 +31,5 @@ Add to ASSERTERS capability, see [sample](https://github.com/codeforequity-at/bo
 Give me some links
 
 #bot
-HASLINK www.google.com
+HASLINK www.google.com|www.facebook.com
 ```
-
