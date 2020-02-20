@@ -1,0 +1,7 @@
+excpect fail: no link and asserter with no arg
+
+#me
+hello
+
+#bot
+HASLINK
