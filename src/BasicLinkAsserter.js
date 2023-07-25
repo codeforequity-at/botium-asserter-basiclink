@@ -1,6 +1,6 @@
 const util = require('util')
-const linkify = require('linkifyjs')
 const _ = require('lodash')
+const urlRegex = require('url-regex')
 const { BotiumError } = require('botium-core')
 const debug = require('debug')('botium-asserter-basiclink')
 
@@ -10,22 +10,51 @@ module.exports = class BasicLinkAsserter {
     this.caps = caps
   }
 
+  extractLinks (botMsg) {
+    let links = []
+    let texts = []
+
+    if (botMsg.media) {
+      links = links.concat(botMsg.media.filter(m => m.mediaUri).map(m => m.mediaUri))
+      texts = texts.concat(botMsg.media.filter(m => m.altText).map(m => m.altText))
+    }
+    if (botMsg.buttons) {
+      links = links.concat(botMsg.buttons.filter(b => b.imageUri).map(b => b.imageUri))
+      texts = texts.concat(botMsg.buttons.filter(b => b.text).map(b => b.text))
+      texts = texts.concat(botMsg.buttons.filter(b => b.payload).map(b => _.isObject(b.payload) ? JSON.stringify(b.payload) : b.payload))
+    }
+    if (botMsg.cards) {
+      botMsg.cards.forEach((card) => {
+        if (card.text) texts.push(card.text)
+        if (card.image && card.image.mediaUri) links.push(card.image.mediaUri)
+        if (card.image && card.image.altText) texts.push(card.image.altText)
+        if (card.buttons) {
+          links = links.concat(card.buttons.filter(b => b.imageUri).map(b => b.imageUri))
+          texts = texts.concat(card.buttons.filter(b => b.text).map(b => b.text))
+          texts = texts.concat(card.buttons.filter(b => b.payload).map(b => _.isObject(b.payload) ? JSON.stringify(b.payload) : b.payload))
+        }
+      })
+    }
+    if (botMsg.messageText) texts.push(botMsg.messageText)
+
+    const regex = urlRegex()
+
+    texts = texts.filter(t => t && _.isString(t))
+    links = links.filter(l => l && _.isString(l))
+
+    texts.forEach((text) => {
+      text = text.replace(/[[\]()']/g, ' ')
+      links = links.concat((text.match(regex) || []))
+    })
+
+    links = _.uniq(links)
+
+    return links
+  }
+
   assertConvoStep ({ convoStep, args, botMsg }) {
     const uniqueArgs = _.uniq(args || [])
-
-    let links = (linkify.find(botMsg.messageText) || []).map(u => u.href)
-    if (botMsg.buttons) {
-      botMsg.buttons.forEach(b => {
-        links.push(b.payload)
-        links.push(b.imageUri)
-      })
-    }
-    if (botMsg.media) {
-      botMsg.media.forEach(m => {
-        links.push(m.mediaUri)
-      })
-    }
-    links = links.filter(s => s && _.isString(s))
+    const links = this.extractLinks(botMsg)
     debug(`all found links : ${util.inspect(links)}`)
 
     if (!args || args.length === 0) {
