@@ -5,7 +5,9 @@
   "scripts": {
     "build": "npm run eslint",
     "eslint": "eslint \"./src/**/*.js\"",
-    "eslint:fix": "eslint --fix \"./src/**/*.js\""
+    "eslint:fix": "eslint --fix \"./src/**/*.js\"",
+    "test": "echo 'Not implemented yet'",
+    "test-nightly": "echo 'Not implemented yet'"
   },
   "repository": {
     "type": "git",
