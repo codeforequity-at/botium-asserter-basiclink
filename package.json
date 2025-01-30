@@ -1,9 +1,7 @@
 {
   "name": "botium-asserter-basiclink",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "",
-  "main": "dist/botium-asserter-basiclink-cjs.js",
-  "module": "dist/botium-asserter-basiclink-es.js",
   "scripts": {
     "build": "npm run eslint",
     "eslint": "eslint \"./src/**/*.js\"",
